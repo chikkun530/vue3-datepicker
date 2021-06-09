@@ -2,7 +2,9 @@ import vue from 'rollup-plugin-vue'
 import typescript from 'rollup-plugin-typescript2'
 import postcss from 'rollup-plugin-postcss'
 import path from 'path'
-
+import nodeResolve from 'rollup-plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import rjson from '@rollup/plugin-json';
 let tsconfigOverride = {
   compilerOptions: {
     target: 'ES6',
@@ -22,6 +24,9 @@ export default [
     plugins: [
       typescript({ tsconfigOverride, useTsconfigDeclarationDir: true }),
       vue(),
+      nodeResolve(),
+      commonjs(),
+      rjson(),
       postcss({
         plugins: [],
       }),

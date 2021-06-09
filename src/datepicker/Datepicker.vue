@@ -44,6 +44,7 @@
       :weekdayFormat="weekdayFormat"
       @select="selectDay"
       @back="viewShown = 'month'"
+      headingFormat = "yyyy年 LLLL"
     />
   </div>
 </template>

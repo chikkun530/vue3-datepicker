@@ -70,10 +70,10 @@
             v-for="item in items"
             :key="item.key"
             :disabled="item.disabled"
-            :class="{ selected: item.selected }"
+            :class="{ selected: item.selected, sunday: item.isSunday, saturday: item.isSaturday, holiday: item.isHoliday, visible: item.isHoliday }"
             @click.stop.prevent="$emit('elementClick', item.value)"
           >
-            <span>{{ item.display }}</span>
+            <span :data-tooltip="item.holidayName">{{ item.display }}</span>
           </button>
         </slot>
       </div>
@@ -83,7 +83,11 @@
 
 <script lang="ts">
 import { isValid } from 'date-fns'
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, watch} from 'vue'
+
+// items.forEach((item) => {
+//   console.log(item);
+// });
 
 type Item = {
   key: string
@@ -122,6 +126,11 @@ export default defineComponent({
       default: (): Item[] => [],
     },
   },
+  // setup(props: Props) {
+  //   watch(() => props.items, (newVal, oldVal) => {
+  //     console.log(newVal);
+  //   });
+  // }
 })
 </script>
 
@@ -231,4 +240,31 @@ button.v3dp__heading__center:hover,
   background-color: var(--elem-selected-bg-color);
   color: var(--elem-selected-color);
 }
+button.saturday>span{
+  background-color: #CCFFFF;
+  color: blue;
+}
+
+button.sunday>span{
+  background-color: #FFBEDA;
+  color: red;
+}
+
+button.holiday>span{
+  background-color: #FFBEDA;
+  color: red;
+}
+
+[data-tooltip]:before {
+  position : absolute;
+  top: 40px;
+  left: 20px;
+  content : attr(data-tooltip);
+  opacity : 0;
+}
+[data-tooltip]:hover:before {
+  opacity : 1;
+  color: red;
+}
+
 </style>

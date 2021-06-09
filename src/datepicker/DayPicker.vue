@@ -35,10 +35,11 @@ import {
   endOfDay,
   startOfDay,
   isValid,
+  getDay,
 } from 'date-fns'
 import { formatWithOptions } from 'date-fns/fp'
 import PickerPopup from './PickerPopup.vue'
-
+import * as holiday_jp from '@holiday-jp/holiday_jp';
 export default defineComponent({
   components: {
     PickerPopup,
@@ -103,7 +104,6 @@ export default defineComponent({
         weekStartsOn: props.weekStartsOn,
       })
     )
-
     const monthStart = computed(() => startOfMonth(props.pageDate))
     const monthEnd = computed(() => endOfMonth(props.pageDate))
     const currentMonth = computed(() => ({
@@ -148,6 +148,8 @@ export default defineComponent({
 
     const days = computed(() => {
       const dayFormat = format.value(props.format)
+      const holidays = holiday_jp.between(new Date('2021-11-03'), new Date('2021-11-03'));
+      console.log(holidays[0]['name']);
       return eachDayOfInterval(displayedInterval.value).map((value) => ({
         value,
         display: dayFormat(value),
@@ -156,6 +158,10 @@ export default defineComponent({
           !isWithinInterval(value, currentMonth.value) ||
           !isEnabled(value, props.lowerLimit, props.upperLimit, props.disabledDates),
         key: format.value('yyyy-MM-dd', value),
+        isSunday: getDay(value) == 0,
+        isSaturday: getDay(value) == 6,
+        isHoliday: holiday_jp.isHoliday(value),
+        holidayName: holiday_jp.isHoliday(value) == true ? holiday_jp.between(value, value)[0]['name'] : ""
       }))
     })
 

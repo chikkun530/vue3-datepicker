@@ -149,7 +149,7 @@ export default defineComponent({
     const days = computed(() => {
       const dayFormat = format.value(props.format)
       const holidays = holiday_jp.between(new Date('2021-11-03'), new Date('2021-11-03'));
-      console.log(holidays[0]['name']);
+      //console.log(holidays[0]['name']);
       return eachDayOfInterval(displayedInterval.value).map((value) => ({
         value,
         display: dayFormat(value),

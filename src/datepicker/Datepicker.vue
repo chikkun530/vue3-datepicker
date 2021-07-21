@@ -2,7 +2,6 @@
   <div class="v3dp__datepicker">
     <input
       type="text"
-      readonly="readonly"
       v-model="input"
       v-bind="$attrs"
       :placeholder="placeholder"
